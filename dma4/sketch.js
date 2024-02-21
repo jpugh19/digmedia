@@ -8,7 +8,6 @@ let prevScore = 0;
 let timeRemaining = 30;
 let gameOver = false;
 let animations;
-let sheet = 'assets/Bug.png';
 let click = false;
 let delay = 10;
 
@@ -27,7 +26,7 @@ function draw() {
   background(220);
 
   while (numBugs < 50) {
-    bugs.push(new Insect(random(40, width - 40), random(40, height - 40), 80, 80, sheet, animations, delay, random(rotations)));
+    bugs.push(new Insect(random(40, width - 40), random(40, height - 40), 80, 80, 'assets/Bug.png', animations, delay, random(rotations)));
     numBugs++;
   } 
 

@@ -26,7 +26,7 @@ function draw() {
   background(220);
 
   while (numBugs < 50) {
-    bugs.push(new Insect(random(40, width - 40), random(40, height - 40), 80, 80, 'assets/Bug.png', animations, delay, random(rotations)));
+    bugs.push(new Insect(random(40, width - 40), random(40, height - 40), 80, 80, 'Sprites/Bug.png', animations, delay, random(rotations)));
     numBugs++;
   } 
 

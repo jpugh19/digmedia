@@ -16,29 +16,30 @@ function preload() {
   };
 
   for (let i = 0; i < 3; i++) {
-    spelunkyguy[i] = new Sprite(a, a, 80, 80);
-    spelunkyguy[i].spriteSheet = 'assets/SpelunkyGuy.png';
-    spelunkyguy[i].anis.frameDelay = 8;
-    spelunkyguy[i].addAnis(animations);
-    spelunkyguy[i].changeAni('stand');
+    spelunkyguy[i] = new Character(a, a, 80, 80, 'assets/SpelunkyGuy.png', animations);
+    // spelunkyguy[i] = new Sprite(a, a, 80, 80);
+    // spelunkyguy[i].spriteSheet = 'assets/SpelunkyGuy.png';
+    // spelunkyguy[i].anis.frameDelay = 8;
+    // spelunkyguy[i].addAnis(animations);
+    // spelunkyguy[i].changeAni('stand');
 
-    ninja[i] = new Sprite(b, b, 80, 80);
-    ninja[i].spriteSheet = 'assets/Ninja.png';
-    ninja[i].anis.frameDelay = 8;
-    ninja[i].addAnis(animations);
-    ninja[i].changeAni('stand');
+    // ninja[i] = new Sprite(b, b, 80, 80);
+    // ninja[i].spriteSheet = 'assets/Ninja.png';
+    // ninja[i].anis.frameDelay = 8;
+    // ninja[i].addAnis(animations);
+    // ninja[i].changeAni('stand');
 
-    green[i] = new Sprite(a, c, 80, 80);
-    green[i].spriteSheet = 'assets/Green.png';
-    green[i].anis.frameDelay = 8;
-    green[i].addAnis(animations);
-    green[i].changeAni('stand');
+    // green[i] = new Sprite(a, c, 80, 80);
+    // green[i].spriteSheet = 'assets/Green.png';
+    // green[i].anis.frameDelay = 8;
+    // green[i].addAnis(animations);
+    // green[i].changeAni('stand');
 
-    viking[i] = new Sprite(a, d, 80, 80);
-    viking[i].spriteSheet = 'assets/Viking.png';
-    viking[i].anis.frameDelay = 8;
-    viking[i].addAnis(animations);
-    viking[i].changeAni('stand');
+    // viking[i] = new Sprite(a, d, 80, 80);
+    // viking[i].spriteSheet = 'assets/Viking.png';
+    // viking[i].anis.frameDelay = 8;
+    // viking[i].addAnis(animations);
+    // viking[i].changeAni('stand');
 
     a += 200;
     b += 100;
@@ -53,59 +54,74 @@ function setup() {
 
 function draw() {
   background(220);
-  for (let j = 0; j < 3; j++) {
-    move(spelunkyguy[j]);
-    move(ninja[j]);
-    move(green[j]);
-    move(viking[j]);
-  }
+  // for (let j = 0; j < 3; j++) {
+  //   move(spelunkyguy[j]);
+  //   // move(ninja[j]);
+  //   // move(green[j]);
+  //   // move(viking[j]);
+    
+  // }
+  spelunkyguy.forEach((sprite) => {
+    if (kb.pressing(RIGHT_ARROW) && !(sprite.x + sprite.width/3 > width)) {
+      sprite.walkRight(sprite);
+    }
+    else if (kb.pressing(LEFT_ARROW) && !(sprite.x - sprite.width/3 < 0)) {
+      sprite.walkLeft(sprite);
+    }
+    else if (kb.pressing(UP_ARROW) && !(sprite.y - sprite.height/2 < 0)) {
+      sprite.walkUp(sprite);
+    }
+    else if (kb.pressing(DOWN_ARROW) && !(sprite.y + sprite.height/2 > height)) {
+      sprite.walkDown(sprite);
+    }
+    else {
+      sprite.stand(sprite);
+    }
+  })
 }
 
-function move(sprite) {
-  if (kb.pressing(RIGHT_ARROW) && !(sprite.x + sprite.width/3 > width)) {
-    walkRight(sprite);
-  }
-  else if (kb.pressing(LEFT_ARROW) && !(sprite.x - sprite.width/3 < 0)) {
-    walkLeft(sprite);
-  }
-  else if (kb.pressing(UP_ARROW) && !(sprite.y - sprite.height/2 < 0)) {
-    walkUp(sprite);
-  }
-  else if (kb.pressing(DOWN_ARROW) && !(sprite.y + sprite.height/2 > height)) {
-    walkDown(sprite);
-  }
-  else {
-    stand(sprite);
-  }
-}
+// function move(sprite) {
+  
+// }
 
-function walkRight(sprite) {
-  sprite.changeAni('walkRight');
-  sprite.vel.x = 1;
-  sprite.vel.y = 0;
-  sprite.scale.x = 1;
-}
+class Character {
+  constructor(x, y, width, height, sheet, animations) {
+    this.sprite = new Sprite(x, y, width, height);
+    this.sprite.spriteSheet = sheet;
+    this.sprite.anis.frameDelay = 8;
+    this.sprite.addAnis(animations);
+    this.sprite.changeAni('stand');
+  }
 
-function walkLeft(sprite) {
-  sprite.changeAni('walkRight');
-  sprite.vel.x = -1;
-  sprite.vel.y = 0;
-  sprite.scale.x = -1;
-}
 
-function walkUp(sprite) {
-  sprite.changeAni('walkUp');
-  sprite.vel.x = 0;
-  sprite.vel.y = -1;
-}
-function walkDown(sprite) {
-  sprite.changeAni('walkDown');
-  sprite.vel.x = 0;
-  sprite.vel.y = 1;
-}
+  walkRight(sprite) {
+    this.sprite.changeAni('walkRight');
+    this.sprite.vel.x = 1;
+    this.sprite.vel.y = 0;
+    this.sprite.scale.x = 1;
+  }
 
-function stand(sprite) {
-  sprite.vel.x = 0;
-  sprite.vel.y = 0;
-  sprite.changeAni('stand');
+  walkLeft(sprite) {
+    this.sprite.changeAni('walkRight');
+    this.sprite.vel.x = -1;
+    this.sprite.vel.y = 0;
+    this.sprite.scale.x = -1;
+  }
+
+  walkUp(sprite) {
+    this.sprite.changeAni('walkUp');
+    this.sprite.vel.x = 0;
+    this.sprite.vel.y = -1;
+  }
+  walkDown(sprite) {
+    this.sprite.changeAni('walkDown');
+    this.sprite.vel.x = 0;
+    this.sprite.vel.y = 1;
+  }
+
+  stand(sprite) {
+    this.sprite.vel.x = 0;
+    this.sprite.vel.y = 0;
+    this.sprite.changeAni('stand');
+}
 }

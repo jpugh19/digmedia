@@ -3,6 +3,7 @@ function preload() {
   boom = loadImage('assets/Boom.png');
 }
 
+let time = 0;
 let fuse = new Tone.Noise("brown");
 let hifilter = new Tone.Filter(10000, "highpass");
 let bomb = new Tone.Noise("white");
@@ -19,13 +20,14 @@ function setup() {
 
 function draw() {
   if (mouseIsPressed === true) {
+    time += deltaTime/1000;
     background(spy);
-    fuse.start();
+    fuse.start(time);
     hifilter.frequency.rampTo(1001, 2);
     if (hifilter.frequency.value > 1000.5) {
-      fuse.stop();
+      fuse.stop(time);
       background(boom);
-      bomb.start();
+      bomb.start(time);
       lofilter.frequency.rampTo(100, 3);
     }
   }
@@ -38,4 +40,8 @@ function draw() {
     hifilter.frequency.value = 1000;
     lofilter.frequency.value = 1000;
   }
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }

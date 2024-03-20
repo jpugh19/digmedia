@@ -3,7 +3,6 @@ function preload() {
   boom = loadImage('assets/Boom.png');
 }
 
-let timer = 0;
 let fuse = new Tone.Noise("brown");
 let hifilter = new Tone.Filter(10000, "highpass");
 let bomb = new Tone.Noise("white");
@@ -22,16 +21,12 @@ function draw() {
   if (mouseIsPressed === true) {
     background(spy);
     fuse.start();
-    timer += deltaTime / 1000;
-    if (timer > 3) {
-      background(boom);
+    hifilter.frequency.rampTo(1001, 2);
+    if (hifilter.frequency.value > 1000.5) {
       fuse.stop();
+      background(boom);
       bomb.start();
-      lofilter.frequency.rampTo(100, 4);
-      if (lofilter.frequency.value === 100) {
-        bomb.stop();
-        lofilter.frequency.value = 1000;
-      }
+      lofilter.frequency.rampTo(100, 3);
     }
   }
   else if (mouseIsPressed === false) {
@@ -40,7 +35,7 @@ function draw() {
     text ('Press mouse.', 50, 100);
     fuse.stop();
     bomb.stop();
+    hifilter.frequency.value = 1000;
     lofilter.frequency.value = 1000;
-    timer = 0;
   }
 }
